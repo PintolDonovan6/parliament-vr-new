@@ -1,111 +1,129 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <title>PNG Parliament VR Tour</title>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-  </head>
-  <body>
-    <a-scene>
-      
-      <!-- Sky and Room Label -->
-      <a-sky id="sky" src="entrance-hall.jpg"></a-sky>
-      <a-text
-        id="room-label"
-        value="Entrance Hall"
-        position="-2 2 -3"
-        color="yellow"
-        width="6"
-      ></a-text>
+<head>
+<meta charset="utf-8">
+<title>PNG Parliament VR Tour</title>
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+</head>
 
-      <!-- Navigation Boxes -->
-      <a-box
-        id="btn-to-state"
-        position="2 1 -3"
-        depth="0.5"
-        height="1"
-        width="1.5"
-        color="green"
-        class="clickable"
-      >
-        <a-text value="Go to State Room" position="-0.65 0 0.6" color="black" width="2"></a-text>
-      </a-box>
+<body>
 
-      <a-box
-        id="btn-to-gallery"
-        position="-2 1 -3"
-        depth="0.5"
-        height="1"
-        width="1.5"
-        color="blue"
-        class="clickable"
-        visible="false"
-      >
-        <a-text value="Go to Public Gallery" position="-0.65 0 0.6" color="white" width="2"></a-text>
-      </a-box>
+<a-scene>
 
-      <a-box
-        id="btn-back"
-        position="0 1 -3"
-        depth="0.5"
-        height="1"
-        width="1.5"
-        color="orange"
-        class="clickable"
-        visible="false"
-      >
-        <a-text value="Back to Entrance" position="-1.15 0 0.6" color="black" width="2"></a-text>
-      </a-box>
+<a-assets>
+<img id="entrance" src="entrance-hall.jpg">
+<img id="state" src="state-room.jpg">
+<img id="gallery" src="public-gallery.jpg">
+</a-assets>
 
-      <!-- Camera + Cursor -->
-      <a-entity camera look-controls position="0 1.6 0">
-        <a-cursor
-          fuse="true"
-          fuse-timeout="500"
-          raycaster="objects: .clickable"
-          material="color: white; shader: flat"
-          geometry="primitive: ring; radiusInner: 0.015; radiusOuter: 0.03"
-        ></a-cursor>
-      </a-entity>
+<a-sky id="sky" src="#entrance"></a-sky>
 
-    </a-scene>
+<a-text id="room"
+value="Entrance Hall"
+position="-2 2 -3"
+color="yellow"
+width="6">
+</a-text>
 
-    <script>
-      const sky = document.querySelector("#sky");
-      const label = document.querySelector("#room-label");
+<a-box id="stateBtn"
+position="2 1 -3"
+color="green"
+depth="0.5"
+height="1"
+width="1.5"
+class="clickable">
 
-      const btnToState = document.querySelector("#btn-to-state");
-      const btnToGallery = document.querySelector("#btn-to-gallery");
-      const btnBack = document.querySelector("#btn-back");
+<a-text value="State Room"
+position="-0.5 0 0.6"
+color="black">
+</a-text>
 
-      // Entrance Hall → State Room
-      btnToState.addEventListener("click", () => {
-        sky.setAttribute("src", "state-room.jpg");
-        label.setAttribute("value", "State Room");
+</a-box>
 
-        btnToState.setAttribute("visible", "false");
-        btnToGallery.setAttribute("visible", "true");
-        btnBack.setAttribute("visible", "true");
-      });
+<a-box id="galleryBtn"
+position="-2 1 -3"
+color="blue"
+depth="0.5"
+height="1"
+width="1.5"
+visible="false"
+class="clickable">
 
-      // State Room → Public Gallery
-      btnToGallery.addEventListener("click", () => {
-        sky.setAttribute("src", "public-gallery.jpg");
-        label.setAttribute("value", "Public Gallery");
+<a-text value="Gallery"
+position="-0.4 0 0.6"
+color="white">
+</a-text>
 
-        btnToGallery.setAttribute("visible", "false");
-        btnBack.setAttribute("visible", "true");
-      });
+</a-box>
 
-      // Any room → Entrance Hall
-      btnBack.addEventListener("click", () => {
-        sky.setAttribute("src", "entrance-hall.jpg");
-        label.setAttribute("value", "Entrance Hall");
+<a-box id="backBtn"
+position="0 1 -3"
+color="orange"
+depth="0.5"
+height="1"
+width="1.5"
+visible="false"
+class="clickable">
 
-        btnBack.setAttribute("visible", "false");
-        btnToState.setAttribute("visible", "true");
-        btnToGallery.setAttribute("visible", "false");
-      });
-    </script>
-  </body>
+<a-text value="Back"
+position="-0.2 0 0.6"
+color="black">
+</a-text>
+
+</a-box>
+
+<a-camera position="0 1.6 0">
+<a-cursor
+raycaster="objects: .clickable"
+fuse="true"
+fuse-timeout="500">
+</a-cursor>
+</a-camera>
+
+</a-scene>
+
+<script>
+
+const sky = document.querySelector("#sky")
+const room = document.querySelector("#room")
+
+const stateBtn = document.querySelector("#stateBtn")
+const galleryBtn = document.querySelector("#galleryBtn")
+const backBtn = document.querySelector("#backBtn")
+
+stateBtn.addEventListener("click", () => {
+
+sky.setAttribute("src","#state")
+room.setAttribute("value","State Room")
+
+stateBtn.setAttribute("visible","false")
+galleryBtn.setAttribute("visible","true")
+backBtn.setAttribute("visible","true")
+
+})
+
+galleryBtn.addEventListener("click", () => {
+
+sky.setAttribute("src","#gallery")
+room.setAttribute("value","Public Gallery")
+
+galleryBtn.setAttribute("visible","false")
+backBtn.setAttribute("visible","true")
+
+})
+
+backBtn.addEventListener("click", () => {
+
+sky.setAttribute("src","#entrance")
+room.setAttribute("value","Entrance Hall")
+
+stateBtn.setAttribute("visible","true")
+galleryBtn.setAttribute("visible","false")
+backBtn.setAttribute("visible","false")
+
+})
+
+</script>
+
+</body>
 </html>
